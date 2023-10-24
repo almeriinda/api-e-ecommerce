@@ -8,5 +8,6 @@ import (
 func InitRoutes() *fiber.App {
 	app := fiber.New()
 	app.Post("/user", controller.CreateUser)
+	app.Get("/categories", controller.ListCategories)
 	return app
 }
