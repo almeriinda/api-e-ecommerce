@@ -8,7 +8,7 @@ import (
 func ListCategories(c *fiber.Ctx) error {
 	categories, err := models.Categories{}.CategoriesList()
 	if err != nil {
-		return c.Status(400).JSON("Erro ao listar as categorias.")
+		return c.Status(400).JSON(fiber.Map{"message": "Erro ao listar as categorias."})
 	}
 	return c.Status(200).JSON(categories)
 }
