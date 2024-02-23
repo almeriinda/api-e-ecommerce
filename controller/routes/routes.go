@@ -10,6 +10,7 @@ func InitRoutes() *fiber.App {
 	//Authentication
 	app.Post("/user", controller.CreateUser)
 	app.Post("/signin", controller.SignIn)
+	app.Put("/user/:id", controller.UpdateUser)
 	//
 	app.Get("/categories", controller.ListCategories)
 	app.Get("/brands", controller.ListBrand)

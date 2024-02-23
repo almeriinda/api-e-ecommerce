@@ -2,8 +2,10 @@ package models
 
 import (
 	"api-e-commerce/config"
+	"errors"
 	"fmt"
 	"gorm.io/gorm"
+	"strconv"
 	"time"
 )
 
@@ -45,4 +47,34 @@ func GetUserByEmail(email string) (*User, error) {
 		return nil, err
 	}
 	return &user, nil
+}
+
+func UpdateUserByID(id string, updatedUser *User) error {
+	db := config.OpenDB()
+	defer config.CloseDB(db)
+
+	userID, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+
+	var existingUser User
+	if err := db.First(&existingUser, userID).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.New("Usuário não encontrado")
+		}
+		return err
+	}
+
+	existingUser.Name = updatedUser.Name
+	existingUser.DateOfBirth = updatedUser.DateOfBirth
+	existingUser.Phone = updatedUser.Phone
+	existingUser.Active = updatedUser.Active
+	existingUser.UpdatedAt = time.Now()
+
+	if err := db.Save(&existingUser).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

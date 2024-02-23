@@ -38,3 +38,25 @@ func SignIn(c *fiber.Ctx) error {
 		"message": "Email ou senha inválidos",
 	})
 }
+
+func UpdateUser(c *fiber.Ctx) error {
+	userID := c.Params("id")
+
+	var updatedUser models.User
+	if err := c.BodyParser(&updatedUser); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Erro ao analisar o corpo da solicitação",
+		})
+	}
+
+	err := models.UpdateUserByID(userID, &updatedUser)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Erro ao atualizar informações do usuário",
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Informações do usuário atualizadas com sucesso",
+	})
+}
