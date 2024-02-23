@@ -6,12 +6,6 @@ import (
 	"fmt"
 )
 
-//func main() {
-//	app := routes.InitRoutes()
-//	config.LoadEnv()
-//	app.Listen(fmt.Sprintf(":%s", config.GetEnv("port_application")))
-//}
-
 func main() {
 	app := routes.InitRoutes()
 	config.LoadEnv()
